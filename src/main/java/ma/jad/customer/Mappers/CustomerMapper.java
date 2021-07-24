@@ -7,6 +7,7 @@ import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface CustomerMapper {
+    //interface implemented
     CustomerResponseDto mapCustomerToResponse(Customer customer);
     Customer mapCustomerRequestDtoToCustomer(CustomerRequestDto customerRequestDto);
 }
