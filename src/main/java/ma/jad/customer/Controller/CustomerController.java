@@ -8,13 +8,14 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @RestController
 @RequestMapping(path = "/Api")
 public class CustomerController {
     @Autowired
-    private CustomerService customerService;
+    private final CustomerService customerService;
 
     private static final Logger logger = LogManager.getLogger(CustomerController.class);
 
@@ -23,8 +24,8 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
-    @GetMapping(path = "/customer/{id}")
-    public CustomerResponseDto getCustomer(@PathVariable Long id) {
+    @GetMapping(path = "/customers/{id}")
+    public CustomerResponseDto findCustomerByID(@PathVariable Long id) {
         logger.info("incoming request to get customer by id " + id);
         return customerService.getCustomer(id);
 
@@ -37,13 +38,13 @@ public class CustomerController {
     }
 
     @PostMapping(path = "/save")
-    public CustomerResponseDto save(@RequestBody CustomerRequestDto customerRequestDto) {
+    public CustomerResponseDto save(@NotNull @RequestBody CustomerRequestDto customerRequestDto) {
         logger.info("incoming request to save customer with ID" + customerRequestDto.getId());
         return customerService.saveCustomer(customerRequestDto);
     }
 
     @DeleteMapping(path = "/delete")
-    public void delete(CustomerRequestDto customerRequestDto){
-         customerService.deleteCustomer(customerRequestDto);
+    public void delete(CustomerRequestDto customerRequestDto) {
+        customerService.deleteCustomer(customerRequestDto);
     }
 }
